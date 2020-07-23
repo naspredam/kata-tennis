@@ -2,7 +2,7 @@ package com.kata.tennis
 
 import java.lang.IllegalArgumentException
 
-fun startGame() = Game()
+fun startGame(): Game = Game()
 
 fun createGame(playerOne: Point, playerTwo: Point): Game {
     val score = Score(playerOne, playerTwo)
@@ -10,8 +10,8 @@ fun createGame(playerOne: Point, playerTwo: Point): Game {
 }
 
 class Game internal constructor(val score: Score? = Score(Point.LOVE, Point.LOVE),
-           val status: Status = Status.STARTED,
-           val winner: Player? = null) {
+                                val status: Status = Status.STARTED,
+                                val winner: Player? = null) {
 
     private val inTheLead: Player? = score?.findInLeadPlayer()
 
