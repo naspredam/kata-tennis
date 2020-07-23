@@ -56,7 +56,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldFirstPlayerWinTheGame_whenTheyHaveMoreThanOnePointDifference() {
-        val game = Game(score = Score(Point.FORTY, Point.THIRTY))
+        val game = createGame(Point.FORTY, Point.THIRTY)
         val playerOneWon = game.pointForPlayerOne()
 
         assertThat(playerOneWon).isNotNull
@@ -66,7 +66,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldSecondPlayerWinTheGame_whenTheyHaveMoreThanOnePointDifference() {
-        val game = Game(score = Score(Point.FIFTEEN, Point.FORTY))
+        val game = createGame(Point.FIFTEEN, Point.FORTY)
         val playerOneWon = game.pointForPlayerTwo()
 
         assertThat(playerOneWon).isNotNull
@@ -76,7 +76,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldGoInDuece_whenBothAreGoingToHaveFortyForty_WithPlayerOneInTheLead() {
-        val game = Game(score = Score(Point.FORTY, Point.THIRTY))
+        val game = createGame(Point.FORTY, Point.THIRTY)
         val playerOneWon = game.pointForPlayerTwo()
 
         assertThat(playerOneWon).isNotNull
@@ -86,7 +86,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldGoInDuece_whenBothAreGoingToHaveFortyForty_WithPlayerTwoInTheLead() {
-        val game = Game(score = Score(Point.THIRTY, Point.FORTY))
+        val game = createGame(Point.THIRTY, Point.FORTY)
         val playerOneWon = game.pointForPlayerOne()
 
         assertThat(playerOneWon).isNotNull
@@ -96,7 +96,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldGoInAdvance_fromDuece_WithPlayerTwoInTheLead() {
-        val game = Game(score = Score(Point.FORTY, Point.FORTY), status = Status.DUECE)
+        val game = createGame(Point.FORTY, Point.FORTY)
         val playerOneWon = game.pointForPlayerTwo()
 
         assertThat(playerOneWon).isNotNull
@@ -107,7 +107,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldGoInAdvance_fromDuece_WithPlayerOneInTheLead() {
-        val game = Game(score = Score(Point.FORTY, Point.FORTY), status = Status.DUECE)
+        val game = createGame(Point.FORTY, Point.FORTY)
         val playerOneWon = game.pointForPlayerOne()
 
         assertThat(playerOneWon).isNotNull

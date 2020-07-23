@@ -4,7 +4,12 @@ import java.lang.IllegalArgumentException
 
 fun startGame() = Game()
 
-class Game(val score: Score? = Score(Point.LOVE, Point.LOVE),
+fun createGame(playerOne: Point, playerTwo: Point): Game {
+    val score = Score(playerOne, playerTwo)
+    return Game(score = score, status = if (score.bothAreOnForty()) Status.DUECE else Status.STARTED)
+}
+
+class Game internal constructor(val score: Score? = Score(Point.LOVE, Point.LOVE),
            val status: Status = Status.STARTED,
            val winner: Player? = null) {
 
