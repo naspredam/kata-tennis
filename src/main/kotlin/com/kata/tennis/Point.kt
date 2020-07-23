@@ -2,11 +2,14 @@ package com.kata.tennis
 
 import java.lang.IllegalArgumentException
 import kotlin.math.abs
+import kotlin.math.sign
 
 enum class Player {ONE, TWO}
 
 enum class Point {
     LOVE, FIFTEEN, THIRTY, FORTY;
+
+    fun isForty() = this == FORTY
 
     fun next(): Point {
         val indexOf = values().indexOf(this)
@@ -15,17 +18,19 @@ enum class Point {
     }
 }
 
-data class Score(val playerOne: Point, val playerTwo: Point) {
+data class Score(val playerOnePoints: Point, val playerTwoPoints: Point) {
 
-    fun getPointFromPlayer(player: Player) = if (player == Player.ONE) playerOne else playerTwo
+    fun getPointFromPlayer(player: Player) =
+        if (player == Player.ONE) playerOnePoints else playerTwoPoints
 
-    fun findInLeadPlayer() = when {
-        playerOne.ordinal > playerTwo.ordinal -> Player.ONE
-        playerOne.ordinal < playerTwo.ordinal -> Player . TWO
-        else -> null
-    }
+    fun findInLeadPlayer() =
+        when (sign(playerOnePoints.ordinal.toDouble() - playerTwoPoints.ordinal)) {
+            1.0 -> Player.ONE
+            -1.0 -> Player.TWO
+            else -> null
+        }
 
-    fun difference() = abs(playerOne.ordinal - playerTwo.ordinal)
+    fun difference() = abs(playerOnePoints.ordinal - playerTwoPoints.ordinal)
 
-    fun bothAreOnForty () = playerOne == Point.FORTY && playerTwo == Point.FORTY
+    fun bothAreOnForty () = playerOnePoints.isForty() && playerTwoPoints.isForty()
 }
