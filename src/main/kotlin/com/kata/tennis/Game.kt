@@ -2,18 +2,20 @@ package com.kata.tennis
 
 import java.lang.IllegalArgumentException
 
-fun startGame(): Game = Game()
-
-fun createGame(playerOne: Point, playerTwo: Point): Game {
-    val score = Score(playerOne, playerTwo)
-    return Game(score = score, status = if (score.bothAreOnForty()) Status.DUECE else Status.STARTED)
-}
-
-class Game internal constructor(val score: Score? = Score(Point.LOVE, Point.LOVE),
+class Game private constructor(val score: Score? = Score(Point.LOVE, Point.LOVE),
                                 val status: Status = Status.STARTED,
                                 val winner: Player? = null) {
 
     private val inTheLead: Player? = score?.findInLeadPlayer()
+
+    companion object {
+        fun new() = Game()
+
+        fun from(playerOne: Point, playerTwo: Point): Game {
+            val score = Score(playerOne, playerTwo)
+            return Game(score = score, status = if (score.bothAreOnForty()) Status.DUECE else Status.STARTED)
+        }
+    }
 
     fun pointForPlayerOne(): Game {
         if (score == null) {
@@ -22,7 +24,7 @@ class Game internal constructor(val score: Score? = Score(Point.LOVE, Point.LOVE
         return when {
             isPlayerAboutToWin(Player.ONE) -> Game(score = null, status = Status.FINISHED, winner = Player.ONE)
             status == Status.DUECE -> Game(score = Score(Point.FORTY, Point.THIRTY), status = Status.ADVANTAGE)
-            else -> createGame(score.playerOnePoints.next(), score.playerTwoPoints)
+            else -> from(score.playerOnePoints.next(), score.playerTwoPoints)
         }
     }
 
@@ -33,7 +35,7 @@ class Game internal constructor(val score: Score? = Score(Point.LOVE, Point.LOVE
         return when {
             isPlayerAboutToWin(Player.TWO) -> Game(score = null, status = Status.FINISHED, winner = Player.TWO)
             status == Status.DUECE -> Game(score = Score(Point.THIRTY, Point.FORTY), status = Status.ADVANTAGE)
-            else -> createGame(score.playerOnePoints, score.playerTwoPoints.next())
+            else -> from(score.playerOnePoints, score.playerTwoPoints.next())
         }
     }
 

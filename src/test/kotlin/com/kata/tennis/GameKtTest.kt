@@ -7,14 +7,14 @@ internal class GameKtTest {
 
     @Test
     fun shouldStartGameWithLoveLove() {
-        val game = startGame()
+        val game = Game.new()
         assertThat(game).isNotNull
         assertThat(game.score).isEqualTo(Score(Point.LOVE, Point.LOVE))
     }
 
     @Test
     fun shouldStartGameWithInitialState_startedWithNoWinner() {
-        val game = startGame()
+        val game = Game.new()
         assertThat(game).isNotNull
         assertThat(game.status).isEqualTo(Status.STARTED)
         assertThat(game.winner).isNull()
@@ -22,7 +22,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldMoveToLoveFifteen_whenSecondPlayerDidPoint() {
-        val game = startGame()
+        val game = Game.new()
         val pointForPlayerTwo = game.pointForPlayerTwo()
 
         assertThat(pointForPlayerTwo).isNotNull
@@ -33,7 +33,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldMoveToFifteenLove_whenFirstPlayerDidPoint() {
-        val game = startGame()
+        val game = Game.new()
         val pointForPlayerOne = game.pointForPlayerOne()
 
         assertThat(pointForPlayerOne).isNotNull
@@ -44,7 +44,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldMoveToFifteenFifteen_whenBothDidFirstTwoPoints() {
-        val game = startGame()
+        val game = Game.new()
         val pointForPlayerTwo = game.pointForPlayerTwo()
         val fifteenFifteen = pointForPlayerTwo.pointForPlayerOne()
 
@@ -56,7 +56,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldFirstPlayerWinTheGame_whenTheyHaveMoreThanOnePointDifference() {
-        val game = createGame(Point.FORTY, Point.THIRTY)
+        val game = Game.from(Point.FORTY, Point.THIRTY)
         val playerOneWon = game.pointForPlayerOne()
 
         assertThat(playerOneWon).isNotNull
@@ -66,7 +66,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldSecondPlayerWinTheGame_whenTheyHaveMoreThanOnePointDifference() {
-        val game = createGame(Point.FIFTEEN, Point.FORTY)
+        val game = Game.from(Point.FIFTEEN, Point.FORTY)
         val playerOneWon = game.pointForPlayerTwo()
 
         assertThat(playerOneWon).isNotNull
@@ -76,7 +76,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldGoInDuece_whenBothAreGoingToHaveFortyForty_WithPlayerOneInTheLead() {
-        val game = createGame(Point.FORTY, Point.THIRTY)
+        val game = Game.from(Point.FORTY, Point.THIRTY)
         val playerOneWon = game.pointForPlayerTwo()
 
         assertThat(playerOneWon).isNotNull
@@ -86,7 +86,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldGoInDuece_whenBothAreGoingToHaveFortyForty_WithPlayerTwoInTheLead() {
-        val game = createGame(Point.THIRTY, Point.FORTY)
+        val game = Game.from(Point.THIRTY, Point.FORTY)
         val playerOneWon = game.pointForPlayerOne()
 
         assertThat(playerOneWon).isNotNull
@@ -96,7 +96,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldGoInAdvance_fromDuece_WithPlayerTwoInTheLead() {
-        val game = createGame(Point.FORTY, Point.FORTY)
+        val game = Game.from(Point.FORTY, Point.FORTY)
         val playerOneWon = game.pointForPlayerTwo()
 
         assertThat(playerOneWon).isNotNull
@@ -107,7 +107,7 @@ internal class GameKtTest {
 
     @Test
     fun shouldGoInAdvance_fromDuece_WithPlayerOneInTheLead() {
-        val game = createGame(Point.FORTY, Point.FORTY)
+        val game = Game.from(Point.FORTY, Point.FORTY)
         val playerOneWon = game.pointForPlayerOne()
 
         assertThat(playerOneWon).isNotNull
