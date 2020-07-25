@@ -2,14 +2,14 @@ package com.kata.tennis
 
 import java.lang.IllegalArgumentException
 
-class Game private constructor(val score: Score? = Score(Point.LOVE, Point.LOVE),
-                                val status: Status = Status.STARTED,
+class Game private constructor(val score: Score?,
+                                val status: Status,
                                 val winner: Player? = null) {
 
     private val inTheLead: Player? = score?.findInLeadPlayer()
 
     companion object {
-        fun new() = Game()
+        fun new() = Game(score = Score(Point.LOVE, Point.LOVE), status = Status.STARTED)
 
         fun from(playerOne: Point, playerTwo: Point): Game {
             val score = Score(playerOne, playerTwo)
